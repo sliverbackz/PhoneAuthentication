@@ -34,6 +34,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
     implementation 'com.google.firebase:firebase-auth:19.1.0'
+    implementation 'com.github.kyawhtut-cu:FirebasePhoneAuth:1.1.1'
+
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
 }
 
 apply plugin: 'com.google.gms.google-services'
