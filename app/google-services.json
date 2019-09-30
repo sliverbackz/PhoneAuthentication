@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "239922410974",
+    "firebase_url": "https://wizard-s-apps.firebaseio.com",
+    "project_id": "wizard-s-apps",
+    "storage_bucket": "wizard-s-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239922410974:android:3e636cb270c9591d8a994f",
+        "android_client_info": {
+          "package_name": "com.zmt.jacknephilim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "239922410974-knmi5ekjpf4eri8hu9oi2o6okeedr606.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zmt.jacknephilim",
+            "certificate_hash": "9f2c8da6f59b157d49f4861aef271b936b23d32a"
+          }
+        },
+        {
+          "client_id": "239922410974-ua13mbj113a2n311g5l9vokfrg4ocf7n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYHtaD82NOna4PCwOpJZoEeIVaxuegUQA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "239922410974-ua13mbj113a2n311g5l9vokfrg4ocf7n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
