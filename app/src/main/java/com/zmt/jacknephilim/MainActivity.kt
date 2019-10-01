@@ -3,9 +3,11 @@ package com.zmt.jacknephilim
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.kyawhtut.firebasephoneauthlib.util.LoginTheme
 import com.kyawhtut.firebasephoneauthlib.util.Phone
 import com.kyawhtut.firebasephoneauthlib.util.PhoneAuth
 import com.kyawhtut.firebasephoneauthlib.util.PhoneVerifyCallback
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +18,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        phoneAuth.startActivity()
+        btn_auth.setOnClickListener {
+            phoneAuth.startActivity(LoginTheme.FirebaseTheme)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
