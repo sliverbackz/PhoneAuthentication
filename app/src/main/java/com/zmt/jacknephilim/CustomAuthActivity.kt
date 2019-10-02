@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import kotlinx.android.synthetic.main.activity_custom_auth.*
-import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
+import androidx.appcompat.app.AppCompatActivity
 
 class CustomAuthActivity : AppCompatActivity() {
     companion object {
