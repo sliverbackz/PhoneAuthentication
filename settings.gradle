@@ -1,2 +1,2 @@
-include ':app', ':fbauth'
+include ':app'
 rootProject.name='Jack Nephilim'

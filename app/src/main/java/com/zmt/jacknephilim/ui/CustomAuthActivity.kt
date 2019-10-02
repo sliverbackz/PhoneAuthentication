@@ -1,4 +1,4 @@
-package com.zmt.jacknephilim
+package com.zmt.jacknephilim.ui
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_custom_auth.*
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import androidx.appcompat.app.AppCompatActivity
+import com.zmt.jacknephilim.R
 
 class CustomAuthActivity : AppCompatActivity() {
     companion object {

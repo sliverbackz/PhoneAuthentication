@@ -1,16 +1,11 @@
-package com.zmt.jacknephilim
+package com.zmt.jacknephilim.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.widget.addTextChangedListener
 import kotlinx.android.synthetic.main.view_phone_verification.*
 import org.jetbrains.anko.toast
-import androidx.core.app.ActivityCompat.startIntentSenderForResult
-import android.app.PendingIntent
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
+import com.zmt.jacknephilim.R
 
 
 class FirstActivity : AppCompatActivity() {

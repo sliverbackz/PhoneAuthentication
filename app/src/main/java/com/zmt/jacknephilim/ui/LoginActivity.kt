@@ -1,10 +1,11 @@
-package com.zmt.jacknephilim
+package com.zmt.jacknephilim.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.zmt.jacknephilim.R
 import java.util.concurrent.TimeUnit
 
 class LoginActivity : AppCompatActivity() {
