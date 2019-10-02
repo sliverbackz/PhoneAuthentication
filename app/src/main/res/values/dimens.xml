@@ -7,4 +7,20 @@
     <dimen name="icon_bottom_margin">24dp</dimen>
     <dimen name="title_bottom_margin">16dp</dimen>
     <dimen name="field_width_standard">160dp</dimen>
+
+    //paduak_zaw
+
+    <!-- Generic with ratio -->
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_small_small">2dp</dimen>
+    <dimen name="margin_medium">8dp</dimen>
+    <dimen name="margin_medium_1">9dp</dimen>
+    <dimen name="margin_medium_2">16dp</dimen>
+    <dimen name="margin_medium_3">18dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+    <dimen name="margin_xlarge">32dp</dimen>
+    <dimen name="margin_xxlarge">36dp</dimen>
+    <dimen name="margin_xxxlarge">38dp</dimen>
+    <dimen name="margin_xxxxlarge">42dp</dimen>
+    <dimen name="margin_xlarge_2">72dp</dimen>
 </resources>

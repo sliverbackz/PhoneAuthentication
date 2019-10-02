@@ -8,6 +8,7 @@ import com.kyawhtut.firebasephoneauthlib.util.Phone
 import com.kyawhtut.firebasephoneauthlib.util.PhoneAuth
 import com.kyawhtut.firebasephoneauthlib.util.PhoneVerifyCallback
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity() {
@@ -19,7 +20,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         btn_auth.setOnClickListener {
-            phoneAuth.startActivity(LoginTheme.FirebaseTheme)
+            phoneAuth.startActivity(LoginTheme.MaterialTheme)
+        }
+
+        btn_custom_auth.setOnClickListener {
+            startActivity<FirstActivity>()
         }
     }
 
