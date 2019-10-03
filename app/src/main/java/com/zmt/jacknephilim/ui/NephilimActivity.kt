@@ -16,9 +16,11 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.zmt.jacknephilim.R
 import com.zmt.jacknephilim.components.OnOtpCompletionListener
 import com.zmt.jacknephilim.utils.*
-import kotlinx.android.synthetic.main.view_loading.*
-import kotlinx.android.synthetic.main.view_nephilim.*
+import kotlinx.android.synthetic.main.activity_n.*
+import kotlinx.android.synthetic.main.view_input_otp.*
+import kotlinx.android.synthetic.main.view_input_phone_number.*
 import org.jetbrains.anko.design.snackbar
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class NephilimActivity : AppCompatActivity() {
@@ -30,30 +32,35 @@ class NephilimActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // makeFullScreen()
         setUpCallback()
-        setContentView(R.layout.view_nephilim)
+        setContentView(R.layout.activity_n)
         bindFromIntent()
         setListeners()
+    }
+
+    fun signOut() {
+        firebaseAuth.signOut()
     }
 
     private fun setUpCallback() {
         callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                fm_loading.gone()
+                layout_loading.gone()
                 authCredential = credential
+                Timber.i("SMS code %s", credential.smsCode)
+                otp_view?.setText(credential.smsCode)
                 if (credential.smsCode == null) {
                     signInWithPhoneAuthCredential(authCredential!!)
                 }
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
-                fm_loading.gone()
+                layout_loading.gone()
                 if (e is FirebaseAuthInvalidCredentialsException) {
-                    et_phone_no.error = "Invalid phone number"
+                    et_phone_no?.error = "Invalid phone number"
                 } else if (e is FirebaseTooManyRequestsException) {
-                    et_phone_no.error =
+                    et_phone_no?.error =
                         "Your request is unusual request. So blocked your phone number."
                 }
             }
@@ -64,17 +71,12 @@ class NephilimActivity : AppCompatActivity() {
             ) {
                 verificationId = vId
                 resendToken = token
-                btn_verify.apply {
-                    isEnabled = false
-                    text = getString(R.string.lbl_btn_continue)
-                }
+                btn_use_sms?.disabled()
                 startTimer()
-                Utils.goneViews(fm_loading, group_phone)
-                fm_loading.gone()
-//                tv_terms_of_service.gone()
-//                tv_privacy_policy.gone()
-                tv_enter.text = "Enter the verification code"
-                group_otp.show()
+                layout_phone.gone()
+                layout_loading.gone()
+                layout_otp.show()
+                Timber.i("onCodeSent token Id %s %s", token.toString(), vId)
                 tv_code_send_description.text = getString(
                     R.string.lbl_verify_code_send_description,
                     String.format("+%s%s", ccp.selectedCountryCode, et_phone_no.text.toString())
@@ -90,82 +92,73 @@ class NephilimActivity : AppCompatActivity() {
                 if (authCredential == null && verificationId.isEmpty())
                     verifyPhone()
             }
-            tv_terms_of_service.apply {
-                text = toFormattedHtmlLink(R.string.lbl_terms_of_service)
-                guessVisibility(extraString(extraTermsOfService).isNotEmpty())
-                //visibility = if (it.extraString(extraTermsOfService).isEmpty()) View.GONE else View.VISIBLE
-            }
-            tv_privacy_policy.apply {
-                text = toFormattedHtmlLink(R.string.lbl_privacy_policy)
-                guessVisibility(extraString(extraPrivacyPolicy).isNotEmpty())
-            }
+
+//            tv_terms_of_service.apply {
+//                text = toFormattedHtmlLink(R.string.lbl_terms_of_service)
+//                guessVisibility(extraString(extraTermsOfService).isNotEmpty())
+//                //visibility = if (it.extraString(extraTermsOfService).isEmpty()) View.GONE else View.VISIBLE
+//            }
+
         }
     }
 
     private fun setListeners() {
-        tv_terms_of_service.setOnClickListener {
-            openBrowser(intent?.getStringExtra(extraTermsOfService) ?: "")
-        }
-
-        tv_privacy_policy.setOnClickListener {
-            openBrowser(intent?.getStringExtra(extraPrivacyPolicy) ?: "")
-        }
-
         et_phone_no.addTextChangedListener(
             onTextChanged = { _, _, _, _ ->
-                btn_verify.isEnabled = et_phone_no.text.toString().length > 5
+                btn_use_sms.isEnabled = et_phone_no.text.toString().length > 5
             }
         )
 
         otp_view.setOtpCompletionListener(
             object : OnOtpCompletionListener {
                 override fun onOtpCompleted(otp: String?) {
-                    btn_verify.enable()
+                    btn_continue.enable()
                     tv_otp_code_error.gone()
                 }
 
                 override fun onOtpUnCompleted() {
-                    btn_verify.disabled()
+                    btn_continue.disabled()
                 }
             }
         )
 
-        btn_verify.setOnClickListener {
-            availableConnection(btn_verify) {
-                if (authCredential == null && verificationId.isEmpty())
+        btn_use_sms.setOnClickListener {
+            availableConnection(btn_use_sms) {
+                if (authCredential == null && verificationId.isEmpty()) {
                     verifyPhone()
-                else {
-                    if (verificationId.isNotEmpty())
-                        authCredential = PhoneAuthProvider.getCredential(
-                            verificationId,
-                            otp_view.text.toString()
-                        )
-                    signInWithPhoneAuthCredential(authCredential!!)
                 }
             }
-
         }
 
-        btn_resend.setOnClickListener {
-            availableConnection(btn_verify) {
+        btn_continue.setOnClickListener {
+            if (verificationId.isNotEmpty())
+                authCredential = PhoneAuthProvider.getCredential(
+                    verificationId,
+                    otp_view.text.toString()
+                )
+            signInWithPhoneAuthCredential(authCredential!!)
+        }
+
+        btn_resend_code.setOnClickListener {
+            availableConnection(btn_resend_code) {
                 resendCode()
             }
         }
     }
 
     private fun resendCode() {
-        fm_loading.show()
+        layout_loading.show()
         val phoneNo = et_phone_no.text.toString()
         if (!phoneNo.isBlank()) {
             PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                String.format("+%s%s", ccp.selectedCountryCode, et_phone_no.text.toString()),
+                String.format("+%s%s", ccp.selectedCountryCode, phoneNo),
                 60,
                 TimeUnit.SECONDS,
                 this,
                 callbacks,
                 resendToken
             )
-            btn_resend.disabled()
+            btn_resend_code.disabled()
         } else {
             et_phone_no.snackbar("Enter your phone number.")
         }
@@ -173,7 +166,7 @@ class NephilimActivity : AppCompatActivity() {
     }
 
     private fun verifyPhone() {
-        fm_loading.show()
+        layout_loading.show()
         val phoneNo = et_phone_no.text.toString()
         if (!phoneNo.isBlank()) {
             PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -191,10 +184,10 @@ class NephilimActivity : AppCompatActivity() {
 
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        fm_loading.show()
+        layout_loading.show()
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
-                fm_loading.gone()
+                layout_loading.gone()
                 if (task.isSuccessful) {
                     SuccessDialog.Builder(this).apply {
                         this.message = "Auth Success"
@@ -217,17 +210,17 @@ class NephilimActivity : AppCompatActivity() {
     }
 
     private fun startTimer() {
-        btn_resend.isEnabled = false
+        btn_resend_code.isEnabled = false
         object : CountDownTimer(60 * 1000, 1000) {
             override fun onFinish() {
-                btn_resend.apply {
+                btn_resend_code.apply {
                     isEnabled = true
                     text = "Resend code"
                 }
             }
 
             override fun onTick(p0: Long) {
-                btn_resend.text =
+                btn_resend_code.text =
                     getString(
                         R.string.lbl_btn_resend,
                         "%02d".format((p0 / 1000) / 60),

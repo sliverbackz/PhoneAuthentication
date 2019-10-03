@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="64dp" />
+
+    <TextView
+        android:id="@+id/tv_enter_otp"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/space"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/lbl_enter_verification_code" />
+
+    <com.zmt.jacknephilim.components.OtpView
+        android:id="@+id/otp_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_enter_otp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:inputType="number"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:itemCount="6"
+        app:itemRadius="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:lineColor="?colorPrimary"
+        app:viewType="rectangle" />
+
+    <TextView
+        android:id="@+id/tv_otp_code_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/otp_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:lineSpacingMultiplier="1.3"
+        android:text="@string/lbl_verify_code_send_description"
+        android:textColor="#A70505"
+        android:visibility="gone"
+        app:drawableStartCompat="@drawable/ic_error_outline_black_24dp"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tv_code_send_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_otp_code_error"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:lineSpacingMultiplier="1.3"
+        android:text="@string/lbl_verify_code_send_description"
+        android:textColor="#858585" />
+
+    <Button
+        android:id="@+id/btn_resend_code"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_continue"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="8dp"
+        android:text="@string/lbl_didnt_get_code"
+        android:textColor="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/btn_continue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:text="@string/lbl_btn_continue"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>

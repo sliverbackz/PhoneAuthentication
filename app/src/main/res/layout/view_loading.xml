@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:background="#54000000"
     android:elevation="12dp"
-    android:longClickable="true"
-    android:visibility="gone">
+    android:longClickable="true">
 
     <ProgressBar
         android:layout_width="wrap_content"

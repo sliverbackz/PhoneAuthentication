@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layout_phone"
+        layout="@layout/view_input_phone_number" />
+
+    <include
+        android:id="@+id/layout_otp"
+        layout="@layout/view_input_otp"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/layout_loading"
+        layout="@layout/view_loading"
+        android:visibility="gone" />
+
+</RelativeLayout>

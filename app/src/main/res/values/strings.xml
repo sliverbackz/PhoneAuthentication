@@ -98,8 +98,14 @@
     <string name="lbl_terms_of_service">Terms Of Service</string>
     <string name="lbl_privacy_policy">Privacy Policy</string>
     <string name="lbl_btn_resend">Resend code in %s:%s</string>
-    <string name="lbl_verify_code_send_description">Please type verification code send to %s</string>
-    <string name="lbl_btn_continue">Continue</string>
+
     <string name="lbl_verification_code">Verification Code</string>
     <string name="lbl_success">Success</string>
+    <string name="lbl_enter_verification_code">Enter the verification code</string>
+    <string name="lbl_verify_code_send_description">Enter the code that was sent to  %s</string>
+    <string name="lbl_btn_continue">Continue</string>
+    <string name="lbl_btn_use_sms">Use SMS</string>
+    <string name="lbl_didnt_get_code">I didn\'t get a code</string>
+    <string name="lbl_my_healthcare_terms">MyHealthcare uses Firebase Authentication.\nMessage and data rates may apply</string>
+    <string name="lbl_enter_phone_number">Enter your phone number</string>
 </resources>
