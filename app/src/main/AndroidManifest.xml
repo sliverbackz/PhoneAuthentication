@@ -14,7 +14,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.NephilimActivity" />
+        <activity android:name=".ui.Test"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.NephilimActivity"
+            android:theme="@style/ThemeOverlay.MyNoTitleActivity"
+            android:windowSoftInputMode="adjustResize" />
+
         <activity android:name=".ui.FirstActivity" />
         <activity android:name=".ui.CustomAuthActivity" />
         <activity android:name=".ui.LoginActivity" />

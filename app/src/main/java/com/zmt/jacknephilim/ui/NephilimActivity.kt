@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.google.firebase.FirebaseException
@@ -17,9 +16,9 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.zmt.jacknephilim.R
 import com.zmt.jacknephilim.components.OnOtpCompletionListener
 import com.zmt.jacknephilim.utils.*
-import kotlinx.android.synthetic.main.activity_nephilim.*
-import kotlinx.android.synthetic.main.otp_view.*
 import kotlinx.android.synthetic.main.view_loading.*
+import kotlinx.android.synthetic.main.view_nephilim.*
+import org.jetbrains.anko.design.snackbar
 import java.util.concurrent.TimeUnit
 
 class NephilimActivity : AppCompatActivity() {
@@ -31,13 +30,10 @@ class NephilimActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
+       // makeFullScreen()
         setUpCallback()
-        setContentView(R.layout.activity_nephilim)
-        getDataAndBind()
+        setContentView(R.layout.view_nephilim)
+        bindFromIntent()
         setListeners()
     }
 
@@ -73,12 +69,12 @@ class NephilimActivity : AppCompatActivity() {
                     text = getString(R.string.lbl_btn_continue)
                 }
                 startTimer()
+                Utils.goneViews(fm_loading, group_phone)
                 fm_loading.gone()
-                tv_terms_of_service.gone()
-                tv_privacy_policy.gone()
-                // tv_app_name.text = getString(R.string.lbl_verification_code)
-                group_phone_input.gone()
-                layout_otp.show()
+//                tv_terms_of_service.gone()
+//                tv_privacy_policy.gone()
+                tv_enter.text = "Enter the verification code"
+                group_otp.show()
                 tv_code_send_description.text = getString(
                     R.string.lbl_verify_code_send_description,
                     String.format("+%s%s", ccp.selectedCountryCode, et_phone_no.text.toString())
@@ -87,7 +83,7 @@ class NephilimActivity : AppCompatActivity() {
         }
     }
 
-    private fun getDataAndBind() {
+    private fun bindFromIntent() {
         intent?.apply {
             et_phone_no.setText(extraString(extraPhoneNumber))
             if (et_phone_no.text.toString().isNotEmpty()) {
@@ -131,48 +127,66 @@ class NephilimActivity : AppCompatActivity() {
                 override fun onOtpUnCompleted() {
                     btn_verify.disabled()
                 }
-
             }
         )
 
         btn_verify.setOnClickListener {
-            if (authCredential == null && verificationId.isEmpty())
-                verifyPhone()
-            else {
-                if (verificationId.isNotEmpty())
-                    authCredential =
-                        PhoneAuthProvider.getCredential(verificationId, otp_view.text.toString())
-                signInWithPhoneAuthCredential(authCredential!!)
+            availableConnection(btn_verify) {
+                if (authCredential == null && verificationId.isEmpty())
+                    verifyPhone()
+                else {
+                    if (verificationId.isNotEmpty())
+                        authCredential = PhoneAuthProvider.getCredential(
+                            verificationId,
+                            otp_view.text.toString()
+                        )
+                    signInWithPhoneAuthCredential(authCredential!!)
+                }
             }
+
         }
 
         btn_resend.setOnClickListener {
-            resendCode()
+            availableConnection(btn_verify) {
+                resendCode()
+            }
         }
     }
 
     private fun resendCode() {
         fm_loading.show()
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-            String.format("+%s%s", ccp.selectedCountryCode, et_phone_no.text.toString()),
-            60,
-            TimeUnit.SECONDS,
-            this,
-            callbacks,
-            resendToken
-        )
-        btn_resend.disabled()
+        val phoneNo = et_phone_no.text.toString()
+        if (!phoneNo.isBlank()) {
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                String.format("+%s%s", ccp.selectedCountryCode, et_phone_no.text.toString()),
+                60,
+                TimeUnit.SECONDS,
+                this,
+                callbacks,
+                resendToken
+            )
+            btn_resend.disabled()
+        } else {
+            et_phone_no.snackbar("Enter your phone number.")
+        }
+
     }
 
     private fun verifyPhone() {
         fm_loading.show()
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-            String.format("+%s%s", ccp.selectedCountryCode, et_phone_no.text.toString()),
-            60,
-            TimeUnit.SECONDS,
-            this,
-            callbacks
-        )
+        val phoneNo = et_phone_no.text.toString()
+        if (!phoneNo.isBlank()) {
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                String.format("+%s%s", ccp.selectedCountryCode, phoneNo),
+                60,
+                TimeUnit.SECONDS,
+                this,
+                callbacks
+            )
+        } else {
+            et_phone_no.snackbar("Enter your phone number.")
+        }
+
     }
 
 
