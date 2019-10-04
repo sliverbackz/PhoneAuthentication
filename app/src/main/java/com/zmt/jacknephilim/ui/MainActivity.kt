@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
 
 
         btn_custom_auth.setOnClickListener {
-            startActivity<Test>()
+            startActivity<FirstActivity>()
         }
 
         btn_own_view.setOnClickListener {

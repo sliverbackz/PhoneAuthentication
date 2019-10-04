@@ -72,7 +72,7 @@ class NephilimActivity : AppCompatActivity() {
                 verificationId = vId
                 resendToken = token
                 btn_use_sms?.disabled()
-                startTimer()
+                //startTimer()
                 layout_phone.gone()
                 layout_loading.gone()
                 layout_otp.show()
